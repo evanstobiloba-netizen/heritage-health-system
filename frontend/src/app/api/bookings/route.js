@@ -1,4 +1,3 @@
-import { readJSON, writeJSON } from '../_lib/db'
 import nodemailer from 'nodemailer'
 
 const COMPANY_EMAIL = process.env.COMPANY_EMAIL || 'info@heritagehealthsystem.com'
@@ -93,10 +92,6 @@ export async function POST(req) {
     status: 'pending',
     createdAt: new Date().toISOString(),
   }
-
-  const bookings = readJSON('bookings.json')
-  bookings.push(booking)
-  writeJSON('bookings.json', bookings)
 
   sendBookingEmail(booking)
 
