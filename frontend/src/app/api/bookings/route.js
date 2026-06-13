@@ -93,7 +93,7 @@ export async function POST(req) {
     createdAt: new Date().toISOString(),
   }
 
-  sendBookingEmail(booking)
+  await sendBookingEmail(booking)
 
   return Response.json({ success: true, message: 'Your information has been submitted. We will contact you to schedule an appointment.' }, { status: 201 })
 }
