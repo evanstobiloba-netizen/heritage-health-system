@@ -25,9 +25,17 @@ export default function BookingForm() {
     setForm((prev) => ({ ...prev, [name]: value }))
   }
 
+  function isValidPolicy(val) {
+    return !val || (val.length >= 3 && /[a-zA-Z]/.test(val) && /[0-9]/.test(val))
+  }
+
   function canContinue() {
     if (step === 1) return form.firstName && form.lastName && form.email && form.phone && form.dob && form.hipaaConsent
-    if (step === 2) return true
+    if (step === 2) {
+      if (form.insuranceCarrier && !isValidPolicy(form.policyNumber)) return false
+      if (form.secondaryInsuranceCarrier && !isValidPolicy(form.secondaryPolicyNumber)) return false
+      return true
+    }
     if (step === 3) return form.emergencyName && form.emergencyPhone && form.emergencyRelationship
     return true
   }
@@ -191,6 +199,9 @@ export default function BookingForm() {
               <div>
                 <label className="sr-only" htmlFor="policyNumber">Policy Number</label>
                 <input id="policyNumber" name="policyNumber" value={form.policyNumber} onChange={handleChange} placeholder="Policy Number" className="w-full bg-white border border-[#ccdadb] rounded-lg px-4 py-3 text-sm text-gray-700 outline-none font-sans" />
+                {form.insuranceCarrier && form.policyNumber && !isValidPolicy(form.policyNumber) && (
+                  <p className="text-xs text-red-500 mt-1">Must contain letters &amp; numbers (min 3 chars)</p>
+                )}
               </div>
             </div>
           </div>
@@ -205,6 +216,9 @@ export default function BookingForm() {
               <div>
                 <label className="sr-only" htmlFor="secondaryPolicyNumber">Secondary Policy Number</label>
                 <input id="secondaryPolicyNumber" name="secondaryPolicyNumber" value={form.secondaryPolicyNumber} onChange={handleChange} placeholder="Secondary Policy Number" className="w-full bg-white border border-[#ccdadb] rounded-lg px-4 py-3 text-sm text-gray-700 outline-none font-sans" />
+                {form.secondaryInsuranceCarrier && form.secondaryPolicyNumber && !isValidPolicy(form.secondaryPolicyNumber) && (
+                  <p className="text-xs text-red-500 mt-1">Must contain letters &amp; numbers (min 3 chars)</p>
+                )}
               </div>
             </div>
           </div>
