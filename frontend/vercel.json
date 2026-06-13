@@ -1,0 +1,7 @@
+{
+  "functions": {
+    "api/bookings/route.js": {
+      "maxDuration": 30
+    }
+  }
+}
